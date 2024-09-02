@@ -2,19 +2,22 @@ import "./App.css";
 import { useState } from "react";
 
 const App = () => {
-  const toId = useState(0);
-
-  let [list, setList] = useState([]);
+  let [Text, setText] = useState("");
+  let [List, setList] = useState([]);
+  const onCreate = (e) => {
+    const todo = {};
+    setList([...Text, todo]);
+  };
+  const onChange = (e) => {
+    setText(e.target.value);
+  };
 
   return (
-    <div>
-      <p>{list}</p>
-      hjhjhjgghg
-      >
-        수정
-      </button>
-    </div>
+    <>
+      <h1>{setList}</h1>
+      <input value={inputValue} onChange={onChange} />
+      <button onClick={onCreate}>추가</button>
+    </>
   );
 };
-
 export default App;
