@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState } from "react";
+import Child from "./Child";
 
 const App = () => {
   const [text, setText] = useState("");
@@ -7,6 +8,7 @@ const App = () => {
   const [contextId, setContextId] = useState(0);
   const [btn, setBtn] = useState(false);
   const [transId, setTransId] = useState(0);
+  const [complete, setComplete] = useState([]);
   const onCreate = () => {
     const contextInform = {
       id: contextId,
@@ -40,10 +42,19 @@ const App = () => {
     setBtn(false);
   };
 
-  return (
-    <>
-      <input value={text} onChange={onChange} />
+  const onCheck = (id) => {
+    setComplete((completeList) => {
+      if (completeList.includes(id)) {
+        return completeList;
+      } else {
+        return [...completeList, id];
+      }
+    });
+  };
 
+  return (
+    <div className="OutlineBox">
+      <input value={text} onChange={onChange} />
       {btn == false ? (
         <button onClick={onCreate}>추가</button>
       ) : (
@@ -51,14 +62,16 @@ const App = () => {
       )}
       <ul>
         {list.map((contextInform) => (
-          <p key={contextInform.id}>
-            <span>{contextInform.comment}</span>
-            <button onClick={() => onTrue(contextInform.id)}>수정</button>
-            <button onClick={() => onRemove(contextInform.id)}>삭제</button>
-          </p>
+          <Child
+            contextInform={contextInform}
+            onTrue={onTrue}
+            onRemove={onRemove}
+            onCheck={onCheck}
+            complete={complete.includes(contextInform.id)}
+          ></Child>
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 
